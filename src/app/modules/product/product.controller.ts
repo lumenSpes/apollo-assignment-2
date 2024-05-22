@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 import productValidationSchema from './product.validation';
+import { productModel } from '../product.model';
 
 const createProdut = async (req: Request, res: Response) => {
   try {
@@ -27,7 +28,7 @@ const createProdut = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'There was a problem creating the product.',
-      error: error,
+      error
     });
   }
 };
@@ -44,15 +45,15 @@ const getAllProducts = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'There was a problem fetching the products.',
-      error: error,
+      error
     });
   }
 };
 
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { id: productId } = req.params;
-    const product = await ProductServices.getSingleProductDB(productId);
+    const { id: ProductId } = req.params;
+    const product = await ProductServices.getSingleProductDB(ProductId);
 
     if (!product) {
       res.status(404).json({
@@ -70,7 +71,48 @@ const getSingleProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'There was a problem fetching the product.',
-      error: error,
+      error
+    });
+  }
+};
+
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { id: ProductId } = req.params;
+    const { product: ProductData } = req.body;
+
+    const { error } = productValidationSchema.validate(ProductData);
+
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'There was a problem updating the product.',
+        error: error.details,
+      });
+    }
+
+    const result = await ProductServices.updateProductDB(
+      ProductId,
+      ProductData,
+    );
+
+    if (!result) {
+      res.status(500).json({
+        success: false,
+        message: 'Product not found!',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'The product was updated successfully.',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'There was a problem updating the product.',
+      error
     });
   }
 };
@@ -79,4 +121,5 @@ export const ProductControllers = {
   createProdut,
   getAllProducts,
   getSingleProduct,
+  updateProduct,
 };

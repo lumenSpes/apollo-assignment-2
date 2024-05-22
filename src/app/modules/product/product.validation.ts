@@ -13,7 +13,7 @@ const inventoryValidationSchema = Joi.object({
 const productValidationSchema = Joi.object({
   name: Joi.string().max(50).required(),
   description: Joi.string().max(500).required(),
-  price: Joi.number().min(50000).required(),
+  price: Joi.number().min(500).required(),
   category: Joi.string().required(),
   tags: Joi.array().items(Joi.string()),
   variants: Joi.array().items(variantValidationSchema),
