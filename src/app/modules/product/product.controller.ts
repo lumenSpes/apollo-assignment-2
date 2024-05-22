@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
-import { TProduct } from './student.interface';
 import productValidationSchema from './product.validation';
 
 const createProdut = async (req: Request, res: Response) => {
@@ -33,6 +32,24 @@ const createProdut = async (req: Request, res: Response) => {
   }
 };
 
+const getAllProducts = async (req: Request, res: Response) => {
+  try {
+    const result = await ProductServices.getAllProductsDB();
+    res.status(200).json({
+      success: true,
+      message: 'Product retrieved successfully.',
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'There was a problem fetching the products.',
+      error: error,
+    });
+  }
+};
+
 export const ProductControllers = {
   createProdut,
+  getAllProducts,
 };
