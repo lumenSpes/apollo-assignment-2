@@ -28,7 +28,7 @@ const createProdut = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'There was a problem creating the product.',
-      error
+      error,
     });
   }
 };
@@ -45,7 +45,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'There was a problem fetching the products.',
-      error
+      error,
     });
   }
 };
@@ -71,7 +71,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'There was a problem fetching the product.',
-      error
+      error,
     });
   }
 };
@@ -112,7 +112,30 @@ const updateProduct = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'There was a problem updating the product.',
-      error
+      error,
+    });
+  }
+};
+
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { id: ProductId } = req.params;
+    const result = await ProductServices.deleteProductDB(ProductId);
+    if (!result) {
+      return res.status(500).json({
+        success: false,
+        message: 'Product not found!',
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: 'Product deleted successfully.',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: 'Error deleting product.',
+      error,
     });
   }
 };
@@ -122,4 +145,5 @@ export const ProductControllers = {
   getAllProducts,
   getSingleProduct,
   updateProduct,
+  deleteProduct,
 };

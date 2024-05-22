@@ -11,13 +11,18 @@ const getAllProductsDB = async () => {
     return result;
 }
 
-const getSingleProductDB = async (id: string) => {
-    const result = await productModel.findById(id)
+const getSingleProductDB = async ( id: string ) => {
+    const result = await productModel.findById({id})
     return result;
 }
 
-const updateProductDB = async (id: string, product: TProduct) => {
+const updateProductDB = async ( id: string, product: TProduct ) => {
     const result = await productModel.findByIdAndUpdate(id, product, { new: true }) //finds a product by its id and updates it then returns it
+    return result;
+}
+
+const deleteProductDB = async (id: string) => {
+    const result = await productModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     return result;
 }
 
@@ -26,4 +31,5 @@ export const ProductServices = {
     getAllProductsDB,
     getSingleProductDB,
     updateProductDB,
+    deleteProductDB
 }
