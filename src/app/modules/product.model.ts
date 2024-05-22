@@ -24,7 +24,6 @@ const inventorySchema = new Schema<TInventory>({
 })
 
 const productSchema = new Schema<TProduct>({
-  id:{ type: String },
   name: {
     type: String,
     required: true
@@ -44,8 +43,8 @@ const productSchema = new Schema<TProduct>({
   tags: {
     type: [String]
   },
-  variants: variantsSchema,
+  variants: [variantsSchema],
   inventory: inventorySchema,
 });
 
-const productModel = model<TProduct>('Product', productSchema);
+export const productModel = model<TProduct>('Product', productSchema);
