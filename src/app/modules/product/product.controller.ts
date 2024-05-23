@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 import productValidationSchema from './product.validation';
+import { string } from 'joi';
 
 const createProdut = async (req: Request, res: Response) => {
   try {
@@ -34,12 +35,31 @@ const createProdut = async (req: Request, res: Response) => {
 
 const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const result = await ProductServices.getAllProductsDB();
-    return res.status(200).json({
-      success: true,
-      message: 'Product retrieved successfully.',
-      data: result,
-    });
+    const { searchTerm } = req.query;
+
+    if (searchTerm && typeof searchTerm === 'string') {
+      try {
+        const result = await ProductServices.searchProductDB(searchTerm);
+        return res.status(200).json({
+          success: true,
+          message: 'Products retrieved successfully.',
+          data: result,
+        });
+      } catch (error) {
+        return res.status(500).json({
+          success: false,
+          message: 'There was a problem fetching the products.',
+          error,
+        });
+      }
+    } else {
+      const result = await ProductServices.getAllProductsDB();
+      return res.status(200).json({
+        success: true,
+        message: 'Product retrieved successfully.',
+        data: result,
+      });
+    }
   } catch (error) {
     return res.status(500).json({
       success: false,
