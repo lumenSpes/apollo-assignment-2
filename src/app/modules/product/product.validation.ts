@@ -17,8 +17,7 @@ const productValidationSchema = Joi.object({
   category: Joi.string().required(),
   tags: Joi.array().items(Joi.string()),
   variants: Joi.array().items(variantValidationSchema),
-  inventory: inventoryValidationSchema,
-  isDeleted: Joi.boolean().default(false)
+  inventory: inventoryValidationSchema
 });
 
 export default productValidationSchema;

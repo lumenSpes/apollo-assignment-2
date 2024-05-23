@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { ProductServices } from './product.service';
 import productValidationSchema from './product.validation';
-import { productModel } from '../product.model';
 
 const createProdut = async (req: Request, res: Response) => {
   try {
@@ -12,20 +11,20 @@ const createProdut = async (req: Request, res: Response) => {
     const result = await ProductServices.createProductDB(ProductData);
 
     if (error) {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: 'There was a problem creating the product.',
         error: error.details,
       });
     }
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Product created successfully.',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'There was a problem creating the product.',
       error,
@@ -36,13 +35,13 @@ const createProdut = async (req: Request, res: Response) => {
 const getAllProducts = async (req: Request, res: Response) => {
   try {
     const result = await ProductServices.getAllProductsDB();
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Product retrieved successfully.',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'There was a problem fetching the products.',
       error,
@@ -56,19 +55,19 @@ const getSingleProduct = async (req: Request, res: Response) => {
     const product = await ProductServices.getSingleProductDB(ProductId);
 
     if (!product) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: 'Product not found!!!',
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'Congatulations! Product found.',
       data: product,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'There was a problem fetching the product.',
       error,
@@ -84,7 +83,7 @@ const updateProduct = async (req: Request, res: Response) => {
     const { error } = productValidationSchema.validate(ProductData);
 
     if (error) {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: 'There was a problem updating the product.',
         error: error.details,
@@ -97,19 +96,19 @@ const updateProduct = async (req: Request, res: Response) => {
     );
 
     if (!result) {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         message: 'Product not found!',
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'The product was updated successfully.',
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'There was a problem updating the product.',
       error,
@@ -125,11 +124,13 @@ const deleteProduct = async (req: Request, res: Response) => {
       return res.status(500).json({
         success: false,
         message: 'Product not found!',
+        data: null,
       });
     }
     return res.status(200).json({
       success: true,
       message: 'Product deleted successfully.',
+      data: null,
     });
   } catch (error) {
     return res.status(500).json({

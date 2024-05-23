@@ -12,7 +12,7 @@ const getAllProductsDB = async () => {
 }
 
 const getSingleProductDB = async ( id: string ) => {
-    const result = await productModel.findById({id})
+    const result = await productModel.findOne({ _id: id })
     return result;
 }
 
@@ -22,7 +22,7 @@ const updateProductDB = async ( id: string, product: TProduct ) => {
 }
 
 const deleteProductDB = async (id: string) => {
-    const result = await productModel.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+    const result = await productModel.findByIdAndDelete(id, { new: true });
     return result;
 }
 

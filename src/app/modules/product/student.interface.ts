@@ -1,5 +1,3 @@
-import { Schema, model, connect } from 'mongoose';
-
 export type TVariants = {
     type: string;
     value: string;
@@ -19,5 +17,4 @@ export type TProduct = {
     tags: string[];
     variants: TVariants[];
     inventory: TInventory;
-    isDeleted?: boolean; 
 }
