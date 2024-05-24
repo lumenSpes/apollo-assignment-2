@@ -12,12 +12,12 @@ const getAllOrdersDB = async () => {
 };
 
 const searchOrderDB = async (email: string) => {
-  const result = await orderModel.find({email: email});
+  const result = await orderModel.find({ email: email });
   return result;
 };
 
 export const OrderServices = {
   createOrderDB,
   getAllOrdersDB,
-  searchOrderDB
+  searchOrderDB,
 };

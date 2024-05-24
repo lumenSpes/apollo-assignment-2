@@ -1,9 +1,6 @@
 import { Request, Response } from 'express';
 import { OrderServices } from './order.service';
 import orderValidationSchema from './order.validation';
-import { ProductServices } from '../product/product.service';
-import { TProduct } from '../product/product.interface';
-import { log } from 'console';
 
 const createOrder = async (req: Request, res: Response) => {
   try {

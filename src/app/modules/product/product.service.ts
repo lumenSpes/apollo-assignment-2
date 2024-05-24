@@ -29,14 +29,16 @@ const deleteProductDB = async (id: string) => {
 };
 
 const searchProductDB = async (searchTerm: string) => {
-  const regex = new RegExp(searchTerm, 'i'); 
-  const result = await productModel.find({
-    $or: [
-      { name: { $regex: regex } },
-      { category: { $regex: regex } },
-      { tags: { $regex: regex } }
-    ]
-  }).exec();
+  const regex = new RegExp(searchTerm, 'i');
+  const result = await productModel
+    .find({
+      $or: [
+        { name: { $regex: regex } },
+        { category: { $regex: regex } },
+        { tags: { $regex: regex } },
+      ],
+    })
+    .exec();
   return result;
 };
 

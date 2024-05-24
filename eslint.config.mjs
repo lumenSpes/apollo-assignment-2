@@ -15,7 +15,7 @@ export default [
       "no-console": "warn",
       "prefer-const": "warn",
     },
-    ignores: ["**/node_modules/", ".dist/"],
+    ignores: ["**/node_modules/", "**.dist/"],
     
   },
   pluginJs.configs.recommended,

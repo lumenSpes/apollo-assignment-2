@@ -1,5 +1,4 @@
 import Joi from 'joi';
-import { TOrder } from './order.interface';
 
 const orderValidationSchema = Joi.object({
   email: Joi.string()
@@ -26,4 +25,4 @@ const orderValidationSchema = Joi.object({
   }),
 });
 
-export default orderValidationSchema; 
+export default orderValidationSchema;
